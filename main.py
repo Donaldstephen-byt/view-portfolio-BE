@@ -72,9 +72,17 @@
 # @app.get("/background")
 # def get_background_image():
 #     return FileResponse("output.png")
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# _________________________________________________________________
+
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+import json
+import os
 
 app = FastAPI()
 

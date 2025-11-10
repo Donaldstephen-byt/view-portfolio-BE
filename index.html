@@ -1,137 +1,491 @@
-<!-- <!DOCTYPE html>
+
+
+<!-- __________________________________ -->
+
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-  </head>
-  <body>
-    <div class="custom-dropdown">
-      <div class="selected">Select an option</div>
-      <ul class="dropdown-options">
-        <li>Option 1</li>
-        <li>Option 2</li>
-        <li>Option 3</li>
-      </ul>
-    </div>
-
-    <style>
-      .custom-dropdown {
-        position: relative;
-        width: 200px;
-        font-family: sans-serif;
-      }
-
-      .selected {
-        padding: 10px;
-        background-color: #f0f0f0;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-
-      .dropdown-options {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: white;
-        border: 1px solid #ccc;
-        border-top: none;
-        display: none;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        z-index: 10;
-      }
-
-      .dropdown-options li {
-        padding: 10px;
-        cursor: pointer;
-        transition: background 0.3s;
-      }
-
-      .dropdown-options li:hover {
-        background-color: #e0e0e0;
-      }
-    </style>
-
-    <script>
-      const selected = document.querySelector(".selected");
-      const options = document.querySelector(".dropdown-options");
-
-      selected.addEventListener("click", () => {
-        options.style.display =
-          options.style.display === "block" ? "none" : "block";
-      });
-
-      options.querySelectorAll("li").forEach((option) => {
-        option.addEventListener("click", () => {
-          selected.textContent = option.textContent;
-          options.style.display = "none";
-        });
-      });
-    </script>
-  </body>
-</html> -->
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TrackAdemia</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
-      rel="stylesheet"
-    />
   </head>
-  <body class="bg-gray-50"> -->
-    <!-- Navbar -->
-    <!-- <nav class="nav flex justify-end p-6 space-x-3">
-      <a
-        href="./login.html"
-        class="px-6 py-2 border border-gray-400 rounded-xl text-gray-800 hover:bg-gray-100"
-        >Login</a
-      >
-      <a
-        href="./signup.html"
-        class="px-6 py-2 rounded-xl bg-blue-900 text-white hover:bg-blue-800"
-        >Sign up</a
-      >
-    </nav> -->
+<style>@keyframes slideDown {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(10px);
+    opacity: 1;
+  }
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes dataFlow {
+  0% {
+    stroke-dashoffset: 500;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+.cylinder-1 {
+  animation: slideDown 3s ease-in-out infinite;
+}
+.cylinder-2 {
+  animation: slideDown 3s ease-in-out infinite 0.5s;
+}
+.cylinder-3 {
+  animation: slideDown 3s ease-in-out infinite 1s;
+}
+.server-light {
+  animation: pulse 2s ease-in-out infinite;
+}
+.data-line {
+  stroke-dasharray: 500;
+  animation: dataFlow 3s linear infinite;
+}
+.lock-icon {
+  animation: pulse 3s ease-in-out infinite;
+}
 
-    <!-- Hero Section -->
-    <!-- <section
-      class="hero flex flex-col-reverse md:flex-row items-center justify-between px-8 md:px-20 py-12"
-    > -->
-      <!-- Left Content -->
-      <!-- <div class="left max-w-lg">
-        <h1 class="text-3xl font-bold text-green-800 font-pacifico">
-          TrackAdemic
-        </h1>
-        <p class="mt-4 text-gray-700 text-lg">
-          Your school can be ready with whatever come their way with the support
-          of a complete learning solution.
-        </p>
-        <button
-          class="mt-6 px-6 py-2 rounded-xl bg-blue-900 text-white hover:bg-blue-800"
+ @keyframes orbit {
+      from { transform: rotate(0deg) translateX(80px) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(80px) rotate(-360deg); }
+    }
+    @keyframes orbitReverse {
+      from { transform: rotate(0deg) translateX(60px) rotate(0deg); }
+      to { transform: rotate(-360deg) translateX(60px) rotate(360deg); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 5px rgba(139, 92, 246, 0.5)); }
+      50% { filter: drop-shadow(0 0 20px rgba(139, 92, 246, 1)); }
+    }
+    @keyframes wave {
+      0%, 100% { d: path("M 0 140 Q 100 120, 200 140 T 400 140"); }
+      50% { d: path("M 0 140 Q 100 160, 200 140 T 400 140"); }
+    }
+    .skill-1 { animation: orbit 8s linear infinite; }
+    .skill-2 { animation: orbit 10s linear infinite; }
+    .skill-3 { animation: orbit 12s linear infinite; }
+    .skill-4 { animation: orbitReverse 9s linear infinite; }
+    .skill-5 { animation: orbitReverse 11s linear infinite; }
+    .center-icon { animation: glow 3s ease-in-out infinite; }
+    .progress-bar { animation: pulse 2s ease-in-out infinite; }
+</style>
+  
+  <body>
+    <div
+      class="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] text-[#f1f5f9] p-6"
+    >
+      <!-- Parent Card -->
+      <div
+        class="bg-[#1e293b] border border-[#334155] rounded-xl p-6 mb-6 shadow-md"
+      >
+        <h2 class="text-[#38bdf8] text-xl font-semibold">Parent Card</h2>
+        <p class="text-[#cbd5e1]">This is a parent card description.</p>
+
+        <!-- Child Card -->
+        <div
+          class="bg-[#334155] border border-[#475569] rounded-lg p-4 mt-4 shadow-md"
         >
-          Get Started
-        </button>
-      </div> -->
+          <h3 class="text-[#818cf8] text-lg font-semibold">Child Card</h3>
 
-      <!-- Right Image -->
-      <!-- <div class="right w-full md:w-1/2 flex justify-center mb-10 md:mb-0">
-        <img
-          src="./assets/images/man-computer.svg"
-          alt="Student at computer"
-          class="w-80 h-auto"
-        />
+          <!-- Grandchild Card -->
+          <div
+            class="bg-[#475569] border border-[#64748b] rounded-lg p-3 mt-3 shadow-md"
+          >
+            <p class="text-[#cbd5e1]">Grandchild card content</p>
+
+            <!-- Great-Grandchild Card -->
+            <div
+              class="bg-[#64748b] border border-[#94a3b8] rounded-lg p-2 mt-3 shadow-md"
+            >
+              <p class="text-[#f1f5f9]">Great-Grandchild card content</p>
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
+
+      <!-- Buttons Preview -->
+      <div class="flex flex-col gap-4 mt-6 max-w-md">
+        <!-- Primary Gradient Button -->
+        <button
+          class="bg-gradient-to-r from-[#06b6d4] via-[#6366f1] to-[#2563eb] text-[#f1f5f9] px-5 py-2 rounded-lg font-medium shadow-lg hover:opacity-90 transition"
+        >
+          Primary Button
+        </button>
+
+        <!-- Secondary Gradient Button -->
+        <button
+          class="bg-gradient-to-r from-[#818cf8] via-[#a855f7] to-[#3b82f6] text-[#f1f5f9] px-5 py-2 rounded-lg font-medium shadow-lg hover:opacity-90 transition"
+        >
+          Secondary Button
+        </button>
+
+        <!-- Glow Border Button -->
+        <button
+          class="bg-[#1e293b] border border-[#38bdf8] text-[#38bdf8] px-5 py-2 rounded-lg shadow-lg hover:shadow-[0_0_15px_rgba(56,189,248,0.7)] transition"
+        >
+          Glow Border Button
+        </button>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+        <!-- Coastal Midnight Card -->
+        <div
+          class="bg-[#0f172a] border border-[#1e293b] rounded-xl p-6 shadow-lg"
+        >
+          <h2 class="text-[#38bdf8] text-xl font-semibold">Coastal Midnight</h2>
+          <p class="text-[#cbd5e1]">Luxury dark blue card.</p>
+        </div>
+
+        <!-- Marm Ember Card -->
+        <div
+          class="bg-[#42210b] border border-[#7c3aed] rounded-xl p-6 shadow-lg"
+        >
+          <h2 class="text-[#fcd34d] text-xl font-semibold">Marm Ember</h2>
+          <p class="text-[#f3e8ff]">Warm and luxurious orange/brown card.</p>
+        </div>
+
+        <!-- Deep Rough Card -->
+        <div
+          class="bg-[#1e1e2e] border border-[#475569] rounded-xl p-6 shadow-lg"
+        >
+          <h2 class="text-[#f87171] text-xl font-semibold">Deep Rough</h2>
+          <p class="text-[#cbd5e1]">Strong and dramatic slate card.</p>
+        </div>
+
+        <!-- Velvet Sapphire Card -->
+        <div
+          class="bg-[#1e293b] border border-[#6366f1] rounded-xl p-6 shadow-lg"
+        >
+          <h2 class="text-[#818cf8] text-xl font-semibold">Velvet Sapphire</h2>
+          <p class="text-[#cbd5e1]">Soft indigo luxurious card.</p>
+        </div>
+      </div>
+    </div>
+     <div className="absolute inset-0 ">
+      <div class="absolute inset-0 opacity-10">
+        <svg width="100%" height="100%">
+          <defs>
+            <pattern
+              id="hexagons"
+              width="50"
+              height="43.4"
+              patternUnits="userSpaceOnUse"
+              patternTransform="scale(0.8)"
+            >
+              <path
+                d="M25,0 L50,14.43 L50,43.3 L25,57.73 L0,43.3 L0,14.43 Z"
+                fill="none"
+                stroke="#8B5CF6"
+                stroke-width="1"
+              />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#hexagons)" />
+        </svg>
+      </div>
+
+      <svg width="100%" height="100%" viewBox="0 0 400 280">
+        <g transform="translate(200, 140)">
+          <circle
+            class="center-icon"
+            cx="0"
+            cy="0"
+            r="30"
+            fill="#8B5CF6"
+            opacity="0.3"
+          />
+          <circle
+            class="center-icon"
+            cx="0"
+            cy="0"
+            r="22"
+            fill="#A855F7"
+            opacity="0.8"
+          />
+
+          <path
+            d="M -8 -10 Q -8 -18 0 -18 Q 8 -18 8 -10 Q 8 -5 5 0 L 5 5 L -5 5 L -5 0 Q -8 -5 -8 -10"
+            fill="#FDE047"
+            opacity="0.9"
+          />
+          <rect
+            x="-5"
+            y="5"
+            width="10"
+            height="4"
+            fill="#FDE047"
+            opacity="0.7"
+          />
+          <line
+            x1="-3"
+            y1="7"
+            x2="3"
+            y2="7"
+            stroke="#FBBF24"
+            stroke-width="0.5"
+          />
+
+          <g class="skill-1">
+            <circle cx="0" cy="0" r="14" fill="#EC4899" opacity="0.9" />
+            <text
+              x="0"
+              y="0"
+              text-anchor="middle"
+              dominant-baseline="middle"
+              fill="white"
+              font-size="10"
+              font-weight="bold"
+            >
+              JS
+            </text>
+          </g>
+
+          <g class="skill-2">
+            <circle cx="0" cy="0" r="14" fill="#3B82F6" opacity="0.9" />
+            <text
+              x="0"
+              y="0"
+              text-anchor="middle"
+              dominant-baseline="middle"
+              fill="white"
+              font-size="10"
+              font-weight="bold"
+            >
+              PY
+            </text>
+          </g>
+
+          <g class="skill-3">
+            <circle cx="0" cy="0" r="14" fill="#10B981" opacity="0.9" />
+            <text
+              x="0"
+              y="0"
+              text-anchor="middle"
+              dominant-baseline="middle"
+              fill="white"
+              font-size="10"
+              font-weight="bold"
+            >
+              UI
+            </text>
+          </g>
+
+          <g class="skill-4">
+            <circle cx="0" cy="0" r="14" fill="#F59E0B" opacity="0.9" />
+            <text
+              x="0"
+              y="0"
+              text-anchor="middle"
+              dominant-baseline="middle"
+              fill="white"
+              font-size="9"
+              font-weight="bold"
+            >
+              SQL
+            </text>
+          </g>
+
+          <g class="skill-5">
+            <circle cx="0" cy="0" r="14" fill="#EF4444" opacity="0.9" />
+            <text
+              x="0"
+              y="0"
+              text-anchor="middle"
+              dominant-baseline="middle"
+              fill="white"
+              font-size="10"
+              font-weight="bold"
+            >
+              API
+            </text>
+          </g>
+        </g>
+
+        <g transform="translate(20, 30)">
+          <rect
+            x="0"
+            y="0"
+            width="80"
+            height="8"
+            rx="4"
+            fill="#1F2937"
+            opacity="0.5"
+          />
+          <rect
+            class="progress-bar"
+            x="0"
+            y="0"
+            width="65"
+            height="8"
+            rx="4"
+            fill="#8B5CF6"
+            opacity="0.8"
+          />
+        </g>
+
+        <g transform="translate(300, 30)">
+          <rect
+            x="0"
+            y="0"
+            width="80"
+            height="8"
+            rx="4"
+            fill="#1F2937"
+            opacity="0.5"
+          />
+          <rect
+            class="progress-bar"
+            x="0"
+            y="0"
+            width="55"
+            height="8"
+            rx="4"
+            fill="#EC4899"
+            opacity="0.8"
+          />
+        </g>
+
+        <g transform="translate(20, 240)">
+          <rect
+            x="0"
+            y="0"
+            width="80"
+            height="8"
+            rx="4"
+            fill="#1F2937"
+            opacity="0.5"
+          />
+          <rect
+            class="progress-bar"
+            x="0"
+            y="0"
+            width="70"
+            height="8"
+            rx="4"
+            fill="#3B82F6"
+            opacity="0.8"
+          />
+        </g>
+
+        <g transform="translate(300, 240)">
+          <rect
+            x="0"
+            y="0"
+            width="80"
+            height="8"
+            rx="4"
+            fill="#1F2937"
+            opacity="0.5"
+          />
+          <rect
+            class="progress-bar"
+            x="0"
+            y="0"
+            width="60"
+            height="8"
+            rx="4"
+            fill="#10B981"
+            opacity="0.8"
+          />
+        </g>
+
+        {/*
+        <!-- Connection lines -->
+        */}
+        <line
+          x1="200"
+          y1="140"
+          x2="60"
+          y2="34"
+          stroke="#8B5CF6"
+          stroke-width="1"
+          opacity="0.3"
+        />
+        <line
+          x1="200"
+          y1="140"
+          x2="340"
+          y2="34"
+          stroke="#EC4899"
+          stroke-width="1"
+          opacity="0.3"
+        />
+        <line
+          x1="200"
+          y1="140"
+          x2="60"
+          y2="244"
+          stroke="#3B82F6"
+          stroke-width="1"
+          opacity="0.3"
+        />
+        <line
+          x1="200"
+          y1="140"
+          x2="340"
+          y2="244"
+          stroke="#10B981"
+          stroke-width="1"
+          opacity="0.3"
+        />
+
+        {/*
+        <!-- Achievement stars -->
+        */}
+        <g transform="translate(30, 140)">
+          <path
+            d="M 0,-8 L 2,-3 L 8,-3 L 3,1 L 5,7 L 0,3 L -5,7 L -3,1 L -8,-3 L -2,-3 Z"
+            fill="#FDE047"
+            opacity="0.8"
+            class="progress-bar"
+          />
+        </g>
+
+        <g transform="translate(370, 140)">
+          <path
+            d="M 0,-8 L 2,-3 L 8,-3 L 3,1 L 5,7 L 0,3 L -5,7 L -3,1 L -8,-3 L -2,-3 Z"
+            fill="#FDE047"
+            opacity="0.8"
+            class="progress-bar"
+          />
+        </g>
+      </svg>
+
+      {/*
+      <!-- Glowing effects -->
+      */}
+      <div
+        className="absolute top-1/2 left-1/2 w-40 h-40 bg-purple-500 rounded-full blur-3xl opacity-20"
+      ></div>
+      <div
+        className="absolute top-8 left-8 w-24 h-24 bg-pink-500 rounded-full blur-2xl opacity-20"
+      ></div>
+      <div
+        className="absolute bottom-8 right-8 w-28 h-28 bg-indigo-500 rounded-full blur-2xl opacity-20"
+      ></div>
   </body>
-</html> -->
+</html>
