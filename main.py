@@ -116,15 +116,15 @@ def get_profile():
 @app.get("/skills")
 def get_skills():
     skills_data = {
-        "title": "My Skills 💻",
-        "discription": "🟢 Proficient: React, JavaScript (ES6+), Python (FastAPI),\n HTML, CSS, Tailwind\n 🔵 Familiar: TypeScript, Redux, Node.js\n🟡 Exploring: Web3, Next.js, GSAP for animations",
-        "fullName": "Donald Stephen",
-        "role": "Software Engineer",
-        "email": "Donalduko69@.com",
-        "phone": "+234 814 340 5610",
-        "location": "Abuja, Nigeria",
-        "hobies": ["problem solving", "Football","UI Design","listening to Music"],
-        "Dislikes": ["Bugs", "Slow internet","Bad UI","Noisy Environment"]   
+    "title": "My Skills 💻",
+    "description": "🟢 Proficient: React, JavaScript (ES6+), Python (FastAPI),\nHTML, CSS, Tailwind\n🔵 Familiar: TypeScript, Redux, Node.js\n🟡 Exploring: Web3, Next.js, GSAP for animations",
+    "full_name": "Donald Stephen",
+    "role": "Software Engineer",
+    "email": "donalduko69@gmail.com",
+    "phone": "+234 814 340 5610",
+    "location": "Abuja, Nigeria",
+    "hobbies": ["Problem Solving", "Football", "UI Design", "Listening to Music"],
+    "dislikes": ["Bugs", "Slow Internet", "Bad UI", "Noisy Environment"] 
     }
     return JSONResponse(content=skills_data)
 
