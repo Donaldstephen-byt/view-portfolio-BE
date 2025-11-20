@@ -153,7 +153,7 @@ def get_aboutSkills():
 def get_aboutMe():
     aboutMe_data = {
         "title": "About Me",
-        "content": "Hi, welcome! I’m Donald Stephen, a university student studying Information Systems and Technology and a software engineer. I am passionate about building efficient, scalable, and maintainable software applications, and I enjoy exploring modern technologies to solve real-world problems.",
+        "content": "Hi, I’m Donald Stephen, a university student in Information Systems and Technology and a software engineer. I build efficient, scalable software and explore modern technologies to solve real-world problems.",
         "manner": "My Approach",
         "manner_1": "I focus on writing clean, readable, and maintainable code.",
         "manner_2": "I value scalable architecture and thoughtful system design.",
