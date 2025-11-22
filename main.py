@@ -149,19 +149,32 @@ def get_aboutSkills():
     return JSONResponse(content=aboutSkills_data)
 
 
+
 @app.get("/about/me")
-def get_aboutMe():
-    aboutMe_data = {
+def get_about_me():
+    about_me_data = {
+        # Section Title
         "title": "About Me",
-        "content": "Hi, I’m Donald Stephen, a university student in Information Systems and Technology and a software engineer. I build efficient, scalable software and explore modern technologies to solve real-world problems.",
+
+        # Personal Introduction
+        "content": (
+            "Hi, I’m Donald Stephen, a university student in Information "
+            "Systems and Technology and a software engineer. I build efficient, "
+            "scalable software and explore modern technologies to solve real-world problems."
+        ),
+
+        # Approach / Philosophy Section
         "manner": "My Approach",
+
+        # Core Principles
         "manner_1": "I focus on writing clean, readable, and maintainable code.",
         "manner_2": "I value scalable architecture and thoughtful system design.",
         "manner_3": "I enjoy problem-solving with modern technologies, exploring innovative solutions.",
         "manner_4": "I approach projects with precision, attention to detail, and structured thinking.",
-
     }
-    return JSONResponse(content=aboutMe_data)
+
+    # Return JSON response with structured data
+    return JSONResponse(content=about_me_data)
 
 @app.get("/focus")
 def get_focus():
