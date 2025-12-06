@@ -170,7 +170,7 @@ def get_about_me():
         },
     }
 
-    # Return JSON response with structured data
+    
     return JSONResponse(content=about_me_data)
 
 @app.get("/focus")
