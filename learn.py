@@ -1,5 +1,12 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+import json
+import os
 DATA_FILE = "items.json"
 
+app = FastAPI()
 class Item(BaseModel):
     name: str
 
