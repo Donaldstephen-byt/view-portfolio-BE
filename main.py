@@ -156,11 +156,7 @@ def get_about_me():
     about_me_data = {
         # Section Title
         "title": "About Me",
-        # Personal Introduction
-        "content": (
-            "Hi, I’m Donald Stephen, a university student in Information Systems and Technology and a passionate software engineer. I enjoy building efficient, scalable digital solutions and exploring modern technologies that solve real-world problems."
-        ),
-        # Approach / Philosophy Section
+        "content": "Hi, welcome! I’m Donald Stephen, a university student studying Information Systems and Technology and a software engineer. I am passionate about building efficient, scalable, and maintainable software applications, and I enjoy exploring modern technologies to solve real-world problems.",
         "manner": "My Approach",
         "core_principles": {
             "manner_1": "Clean, readable, and maintainable code.",
