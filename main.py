@@ -165,7 +165,6 @@ def get_about_me():
             "manner_4": "Detail-oriented and structured engineering mindset."
         },
     }
-    # response to be updated later for dynamic content
     # Return JSON response with structured data
     return JSONResponse(content=about_me_data)
 
