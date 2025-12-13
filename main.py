@@ -17,7 +17,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+# for profile data (avatar, fullName, role, email, phone, location, social links) for first card (sidebar)
 @app.get("/profile")
 def get_profile():
     profile_data = {
