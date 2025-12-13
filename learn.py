@@ -27,6 +27,8 @@ def create_item(item: Item):
     save_items(items)
     return {"message": "Item saved", "item": item}
 
+# turtle graphics code (commented out)
+
 
 
 # from turtle import Screen, tracer, color, circle, fd, rt, done
