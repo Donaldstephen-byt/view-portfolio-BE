@@ -35,7 +35,7 @@ def get_profile():
     }
     return JSONResponse(content=profile_data)
 
-
+# for skills data (proficient, familiar, exploring) for second card (second section in home page)
 @app.get("/skills")
 def get_skills():
     skills_data = {
