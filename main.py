@@ -51,7 +51,6 @@ def get_skills():
     }
     return JSONResponse(content=skills_data)
 
-# for aboutSkills data (skills details) for about page
 @app.get("/about/skills")
 def get_aboutSkills():
     aboutSkills_data = {
