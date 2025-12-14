@@ -1,10 +1,14 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Request, BackgroundTasks
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import json
 import os
+from starlette.middleware.base import BaseHTTPMiddleware
+import sqlite3
+import json
 
 app = FastAPI()
 
@@ -16,6 +20,65 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class DNTMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        request.state.dnt = request.headers.get("DNT") == "1"
+        return await call_next(request)
+
+app.add_middleware(DNTMiddleware)
+
+def get_device(user_agent: str):
+    if not user_agent:
+        return "unknown"
+    ua = user_agent.lower()
+    if "mobile" in ua:
+        return "mobile"
+    return "desktop"
+
+def save_visit(page, referrer, duration, user_agent):
+    device = get_device(user_agent)
+
+    conn = sqlite3.connect("analytics.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        INSERT INTO visits (page, referrer, device, duration)
+        VALUES (?, ?, ?, ?)
+        """,
+        (page, referrer, device, duration)
+    )
+
+    conn.commit()
+    conn.close()
+
+
+
+@app.post("/track")
+async def track(request: Request, background_tasks: BackgroundTasks):
+    # Respect Do Not Track
+    if request.state.dnt:
+        return {"tracked": False}
+
+    body = await request.body()
+    if not body:
+        return {"tracked": False}
+
+    try:
+        data = json.loads(body)
+    except Exception:
+        return {"tracked": False}
+
+    background_tasks.add_task(
+        save_visit,
+        page=data.get("page"),
+        referrer=data.get("referrer"),
+        duration=data.get("duration"),
+        user_agent=request.headers.get("user-agent")
+    )
+
+    return {"tracked": True}
 
 # for profile data (avatar, fullName, role, email, phone, location, social links) for first card (sidebar)
 @app.get("/profile")
