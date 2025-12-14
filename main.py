@@ -21,6 +21,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Middleware to check Do Not Track header
 class DNTMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         request.state.dnt = request.headers.get("DNT") == "1"
