@@ -152,6 +152,9 @@ def get_about_me():
     # Return JSON response with structured data
     return JSONResponse(content=about_me_data)
 
+    # focus to be used in focus card
+    # and to be worked on later for more details
+
 @app.get("/focus")
 def get_focus():
     focus_data = {
