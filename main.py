@@ -154,6 +154,7 @@ def get_about_me():
 
     # focus to be used in focus card
     # and to be worked on later for more details
+    # more details to be added later
 
 @app.get("/focus")
 def get_focus():
