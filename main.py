@@ -81,7 +81,7 @@ async def track(request: Request, background_tasks: BackgroundTasks):
 
     return {"tracked": True}
 
-# for profile data (avatar, fullName, role, email, phone, location, social links) for first card (sidebar)
+# for profile data (avatar, fullName, role, email, phone, location, social links) for first card (sidebar..)
 @app.get("/profile")
 def get_profile():
     profile_data = {
