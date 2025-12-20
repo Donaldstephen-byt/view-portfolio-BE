@@ -12,7 +12,7 @@ import json
 
 app = FastAPI()
 
-# Enable CORS
+# Enable CORS..
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://localhost:3000"],  # {{Or ["*"] for testing}}
