@@ -54,7 +54,9 @@ def save_visit(page, referrer, duration, user_agent):
     conn.commit()
     conn.close()
 
-
+@app.get("/")
+async def root():
+    return {"message": "Welcome to my FastAPI backend!"}
 
 @app.post("/track")
 async def track(request: Request, background_tasks: BackgroundTasks):
