@@ -79,7 +79,7 @@ logger.info(f"CORS allowed origins: {allow_origins}")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000", "https://view-portfolio-be.onrender.com", "https://sub-pf-fe-i9du.vercel.app"],  # {{Or ["*"] for testing}}
+    allow_origins=["http://localhost:5173", "http://localhost:3000", "https://view-portfolio-be.onrender.com", "https://donaldstephen.vercel.app"],  # {{Or ["*"] for testing}}
     # allow_origins=allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
