@@ -250,6 +250,9 @@ def get_focus():
     return JSONResponse(content=focus_data)
 
 
+# configuration for contact endpoint and to be completed >>>>>>......
+
+
 # Email configuration
 EMAIL_FROM = os.getenv("EMAIL_FROM", "donalduko69@gmail.com")
 EMAIL_TO = os.getenv("EMAIL_TO", "donaldstephenuko@gmail.com")
