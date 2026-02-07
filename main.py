@@ -175,7 +175,7 @@ def get_profile():
         "role": "Frontend Developer",
         "email": "Donalduko69@.com",
         "phone": "+234 814 340 5610 ",
-        "location": "lagose, Nigiria",
+        "location": "Abuja, Nigiria",
         "github": "https://github.com/",
         "linkedin": "https://linkedin.com/in/johndoe",
         "twitter": "https://twitter.com/johndoe",
