@@ -172,32 +172,54 @@ def get_profile():
     profile_data = {
         "avatar": "https://i.pravatar.cc/150?img=10",
         "fullName": "Donald Stephen",
-        "role": "Frontend Developer",
+        "role": "Full-stack Developer",
         "email": "Donalduko69@.com",
-        "phone": "+234 814 340 5610 ",
+        "phone": "+234 814 386 7205",
         "location": "Abuja, Nigiria",
         "github": "https://github.com/",
-        "linkedin": "https://linkedin.com/in/johndoe",
-        "twitter": "https://twitter.com/johndoe",
-        "instagram": "https://instagram.com/johndoe",
-        "facebook": "https://facebook.com/johndoe",
+        "linkedin": "https://www.linkedin.com/in/donald-stephen-9004b236a/",
+        "twitter": "https://x.com/DonaldS4598",
+        "instagram": "https://www.instagram.com/donald_stephen205/",
+        "facebook": "https://web.facebook.com/donaldstephen205",
     }
     return JSONResponse(content=profile_data)
 
 @app.get("/skills")
 def get_skills():
     skills_data = {
-        "title": "My Skills 💻",
-        "description": "🟢 Proficient: React, JavaScript (ES6+), Python (FastAPI),\nHTML, CSS, Tailwind\n🔵 Familiar: TypeScript, Redux, Node.js\n🟡 Exploring: Web3, Next.js, GSAP for animations",
-        "full_name": "Donald Stephen",
-        "role": "Software Engineer",
-        "email": "donalduko69@gmail.com",
-        "phone": "+234 814 340 5610",
-        "location": "Abuja, Nigeria",
-        "hobbies": ["Problem Solving", "Football", "UI Design", "Listening to Music"],
-        "dislikes": ["Bugs", "Slow Internet", "Bad UI", "Noisy Environment"],
+        "title": "System Status", # Changed from "My Skills"
+        "tagline": "Engineering scalable solutions with secure architecture.",
+        # Break down the skills so the Frontend can map them nicely
+        "stack": {
+            "frontend": ["javascript", "React.js","Vue.js", "Boostrap", "Three.js", "Tailwind", "Next.js"],
+            "backend": ["Python (FastAPI)", "Node.js", "MongoDB", "PostgreSQL"],
+            "security": ["Kali Linux", "Burp Suite", "OWASP", "Cryptography"]
+        },
+        # Fun "Live" stats to make it look professional..
+        "stats": {
+            "experience": "3+ Years",
+            "projects": "15+ Built",
+            "status": "Available for Hire", 
+            "current_focus": "Advanced System Design",
+            "optimization": "SOLID Principles",
+        },
     }
     return JSONResponse(content=skills_data)
+
+# @app.get("/skills")
+# def get_skills():
+#     skills_data = {
+#         "title": "My Skills 💻",
+#         "description": "🟢 Proficient: React, JavaScript (ES6+), Python (FastAPI),\nHTML, CSS, Tailwind\n🔵 Familiar: TypeScript, Redux, Node.js\n🟡 Exploring: Web3, Next.js, GSAP for animations",
+#         "full_name": "Donald Stephen",
+#         "role": "Software Engineer",
+#         "email": "donalduko69@gmail.com",
+#         "phone": "+234 814 340 5610",
+#         "location": "Abuja, Nigeria",
+#         "hobbies": ["Problem Solving", "Football", "UI Design", "Listening to Music"],
+#         "dislikes": ["Bugs", "Slow Internet", "Bad UI", "Noisy Environment"],
+#     }
+#     return JSONResponse(content=skills_data)
 
 @app.get("/about/skills")
 def get_aboutSkills():
