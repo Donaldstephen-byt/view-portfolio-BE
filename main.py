@@ -17,7 +17,7 @@ import logging
 import httpx
 from datetime import datetime
 
-# Set up logging
+# Set up logging..
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -143,7 +143,7 @@ async def root():
 
 @app.post("/track")
 async def track(request: Request, background_tasks: BackgroundTasks):
-    # Respect Do Not Track
+    
     if request.state.dnt:
         return {"tracked": False}
 
@@ -166,7 +166,7 @@ async def track(request: Request, background_tasks: BackgroundTasks):
 
     return {"tracked": True}
 
-# for profile data (avatar, fullName, role, email, phone, location, social links) for first card (sidebar..)
+# for profile data (avatar, fullName, role, email, phone, location, social links) for first card (sidebar....)
 @app.get("/profile")
 def get_profile():
     profile_data = {
