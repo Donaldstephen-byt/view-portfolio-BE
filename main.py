@@ -111,7 +111,7 @@ def save_visit(page, referrer, duration, user_agent):
         conn = sqlite3.connect("analytics.db")
         cursor = conn.cursor()
         
-        # Create table if it doesn't exist (safety check)
+        # Create table if it doesn't exist (safety check)..
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS visits (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
