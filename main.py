@@ -151,7 +151,7 @@ def get_profile():
         "email": "Donalduko69@gmail.com",
         "phone": "+234 814 386 7205",
         "location": "Abuja, Nigiria",
-        "github": "https://github.com/",
+        "github": "https://github.com/Donaldstephen-byt",
         "linkedin": "https://www.linkedin.com/in/donald-stephen-9004b236a/",
         "twitter": "https://x.com/DonaldS4598",
         "instagram": "https://www.instagram.com/donald_stephen205/",
