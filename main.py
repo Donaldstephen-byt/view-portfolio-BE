@@ -1,4 +1,8 @@
 
+
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Request, BackgroundTasks
@@ -7,12 +11,13 @@ from pydantic import BaseModel
 import json
 import os
 from starlette.middleware.base import BaseHTTPMiddleware
-import sqlite3
-import json
-from urllib.parse import quote
 import smtplib
 from email.message import EmailMessage
-from fastapi import FastAPI, HTTPException
+from sqlalchemy.orm import Session
+from database import engine, SessionLocal, get_db
+import models
+
+from fastapi import FastAPI, HTTPException, Depends
 import logging
 import httpx
 from datetime import datetime
@@ -34,34 +39,7 @@ app = FastAPI()
 def init_database():
     """Initialize the analytics database if it doesn't exist"""
     try:
-        conn = sqlite3.connect("analytics.db")
-        cursor = conn.cursor()
-        
-        # Create visits table
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS visits (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          page TEXT,
-          referrer TEXT,
-          device TEXT,
-          duration INTEGER,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-        """)
-        
-        # Create contacts table for storing messages
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS contacts (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT NOT NULL,
-          email TEXT NOT NULL,
-          message TEXT NOT NULL,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-        """)
-        
-        conn.commit()
-        conn.close()
+        models.Base.metadata.create_all(bind=engine)
         logger.info("Database initialized successfully")
     except Exception as e:
         logger.error(f"Failed to initialize database: {e}")
@@ -114,33 +92,23 @@ def save_visit(page, referrer, duration, user_agent):
     try:
         device = get_device(user_agent)
         
-        # Ensure database is initialized
-        conn = sqlite3.connect("analytics.db")
-        cursor = conn.cursor()
-        
-        # Create table if it doesn't exist (safety check)..
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS visits (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          page TEXT,
-          referrer TEXT,
-          device TEXT,
-          duration INTEGER,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-        """)
-        
-        cursor.execute(
-            """
-            INSERT INTO visits (page, referrer, device, duration)
-            VALUES (?, ?, ?, ?)
-            """,
-            (page, referrer, device, duration)
-        )
-
-        conn.commit()
-        conn.close()
-        logger.info(f"Visit saved: page={page}, device={device}, duration={duration}")
+        db = SessionLocal()
+        try:
+            visit = models.Visit(
+                page=page,
+                referrer=referrer,
+                device=device,
+                duration=duration
+            )
+            db.add(visit)
+            db.commit()
+            logger.info(f"Visit saved: page={page}, device={device}, duration={duration}")
+        except Exception as e:
+            logger.error(f"Failed to save visit to DB: {e}", exc_info=True)
+            db.rollback()
+        finally:
+            db.close()
+            
     except Exception as e:
         logger.error(f"Failed to save visit: {e}", exc_info=True)
 
@@ -283,16 +251,15 @@ def get_focus():
 
 
 # Email configuration
-EMAIL_FROM = os.getenv("EMAIL_FROM", "donalduko69@gmail.com")
-EMAIL_TO = os.getenv("EMAIL_TO", "donaldstephenuko@gmail.com")
-EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD", "Drealstar@205")  # Use environment variable in production
-ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "secure_admin_key_123") # Default key for dev, change in prod!
+EMAIL_FROM = os.getenv("EMAIL_FROM")
+EMAIL_TO = os.getenv("EMAIL_TO")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+ADMIN_API_KEY = os.getenv("ADMIN_API_KEY")
 
-# WhatsApp configuration (using CallMeBot API - free alternative)
-# Get your API key from: https://www.callmebot.com/blog/free-api-whatsapp-messages/
-# Or use Twilio for more reliable service
-WHATSAPP_API_KEY = os.getenv("WHATSAPP_API_KEY", "")  # Set this in environment variables
-WHATSAPP_PHONE = os.getenv("WHATSAPP_PHONE", "+2348143405610")  # Your WhatsApp number with country code
+# WhatsApp configuration
+WHATSAPP_API_KEY = os.getenv("WHATSAPP_API_KEY")
+WHATSAPP_PHONE = os.getenv("WHATSAPP_PHONE")
+
 
 class Contact(BaseModel):
     name: str
@@ -302,31 +269,22 @@ class Contact(BaseModel):
 def save_contact_message(name: str, email: str, message: str):
     """Save contact message to database"""
     try:
-        conn = sqlite3.connect("analytics.db")
-        cursor = conn.cursor()
-        
-        # Ensure table exists
-        cursor.execute("""
-        CREATE TABLE IF NOT EXISTS contacts (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT NOT NULL,
-          email TEXT NOT NULL,
-          message TEXT NOT NULL,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-        """)
-        
-        cursor.execute(
-            """
-            INSERT INTO contacts (name, email, message)
-            VALUES (?, ?, ?)
-            """,
-            (name, email, message)
-        )
-        
-        conn.commit()
-        conn.close()
-        logger.info(f"Contact message saved: {name} ({email})")
+        db = SessionLocal()
+        try:
+            contact = models.Contact(
+                name=name,
+                email=email,
+                message=message
+            )
+            db.add(contact)
+            db.commit()
+            logger.info(f"Contact message saved: {name} ({email})")
+        except Exception as e:
+            logger.error(f"Failed to save contact to DB: {e}", exc_info=True)
+            db.rollback()
+        finally:
+            db.close()
+
     except Exception as e:
         logger.error(f"Failed to save contact message: {e}", exc_info=True)
 
@@ -418,30 +376,10 @@ async def contact(data: Contact, background_tasks: BackgroundTasks):
         )
 
 @app.get("/api/contacts")
-def get_contacts():
+def get_contacts(db: Session = Depends(get_db)):
     """Get all saved contact messages"""
     try:
-        conn = sqlite3.connect("analytics.db")
-        cursor = conn.cursor()
-        
-        cursor.execute("""
-        SELECT id, name, email, message, created_at
-        FROM contacts
-        ORDER BY created_at DESC
-        """)
-        
-        rows = cursor.fetchall()
-        conn.close()
-        
-        contacts = []
-        for row in rows:
-            contacts.append({
-                "id": row[0],
-                "name": row[1],
-                "email": row[2],
-                "message": row[3],
-                "created_at": row[4]
-            })
+        contacts = db.query(models.Contact).order_by(models.Contact.created_at.desc()).all()
         
         return {"contacts": contacts, "count": len(contacts)}
     except Exception as e:
@@ -452,7 +390,7 @@ def get_contacts():
         )
 
 @app.get("/api/admin/analytics")
-def get_admin_analytics(key: str = ""):
+def get_admin_analytics(key: str = "", db: Session = Depends(get_db)):
     """
     Admin endpoint to view all database data.
     Protected by a simple API key query parameter.
@@ -465,19 +403,11 @@ def get_admin_analytics(key: str = ""):
         )
 
     try:
-        conn = sqlite3.connect("analytics.db")
-        conn.row_factory = sqlite3.Row # Allow accessing columns by name
-        cursor = conn.cursor()
-        
         # Fetch visits
-        cursor.execute("SELECT * FROM visits ORDER BY created_at DESC LIMIT 100")
-        visits = [dict(row) for row in cursor.fetchall()]
+        visits = db.query(models.Visit).order_by(models.Visit.created_at.desc()).limit(100).all()
         
         # Fetch contacts
-        cursor.execute("SELECT * FROM contacts ORDER BY created_at DESC LIMIT 100")
-        contacts = [dict(row) for row in cursor.fetchall()]
-        
-        conn.close()
+        contacts = db.query(models.Contact).order_by(models.Contact.created_at.desc()).limit(100).all()
         
         return {
             "status": "success",
