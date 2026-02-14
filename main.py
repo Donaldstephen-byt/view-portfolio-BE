@@ -148,7 +148,7 @@ def get_profile():
         "avatar": "https://i.pravatar.cc/150?img=10",
         "fullName": "Donald Stephen",
         "role": "Full-stack Developer",
-        "email": "Donalduko69@.com",
+        "email": "Donalduko69@gmail.com",
         "phone": "+234 814 386 7205",
         "location": "Abuja, Nigiria",
         "github": "https://github.com/",
