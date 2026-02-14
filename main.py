@@ -16,6 +16,13 @@ from fastapi import FastAPI, HTTPException
 import logging
 import httpx
 from datetime import datetime
+from pydantic import BaseModel
+
+class Contact(BaseModel):
+    name: str
+    email: str
+    message: str
+
 
 # Set up logging..
 logging.basicConfig(level=logging.INFO)
@@ -279,6 +286,7 @@ def get_focus():
 EMAIL_FROM = os.getenv("EMAIL_FROM", "donalduko69@gmail.com")
 EMAIL_TO = os.getenv("EMAIL_TO", "donaldstephenuko@gmail.com")
 EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD", "Drealstar@205")  # Use environment variable in production
+ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "secure_admin_key_123") # Default key for dev, change in prod!
 
 # WhatsApp configuration (using CallMeBot API - free alternative)
 # Get your API key from: https://www.callmebot.com/blog/free-api-whatsapp-messages/
@@ -370,6 +378,7 @@ def send_whatsapp_notification(name: str, email: str, message: str):
             logger.warning(f"WhatsApp notification failed with status {response.status_code}")
     except Exception as e:
         logger.error(f"Failed to send WhatsApp notification: {e}", exc_info=True)
+        
 
 @app.post("/api/contact")
 async def contact(data: Contact, background_tasks: BackgroundTasks):
@@ -441,3 +450,47 @@ def get_contacts():
             status_code=500,
             detail="Failed to fetch contact messages"
         )
+
+@app.get("/api/admin/analytics")
+def get_admin_analytics(key: str = ""):
+    """
+    Admin endpoint to view all database data.
+    Protected by a simple API key query parameter.
+    Usage: /api/admin/analytics?key=YOUR_ADMIN_KEY
+    """
+    if key != ADMIN_API_KEY:
+        raise HTTPException(
+            status_code=403,
+            detail="Invalid or missing admin key"
+        )
+
+    try:
+        conn = sqlite3.connect("analytics.db")
+        conn.row_factory = sqlite3.Row # Allow accessing columns by name
+        cursor = conn.cursor()
+        
+        # Fetch visits
+        cursor.execute("SELECT * FROM visits ORDER BY created_at DESC LIMIT 100")
+        visits = [dict(row) for row in cursor.fetchall()]
+        
+        # Fetch contacts
+        cursor.execute("SELECT * FROM contacts ORDER BY created_at DESC LIMIT 100")
+        contacts = [dict(row) for row in cursor.fetchall()]
+        
+        conn.close()
+        
+        return {
+            "status": "success",
+            "data": {
+                "visits_count": len(visits),
+                "contacts_count": len(contacts),
+                "visits": visits,
+                "contacts": contacts
+            }
+        }
+    except Exception as e:
+        logger.error(f"Failed to fetch admin analytics: {e}", exc_info=True)
+        return {
+            "status": "error",
+            "message": str(e)
+        }
