@@ -220,7 +220,6 @@ def get_aboutSkills():
 @app.get("/about/me")
 def get_about_me():
     about_me_data = {
-        # Section Title
         "title": "About Me",
         "content": "Hi, welcome! I’m Donald Stephen, a university student studying Information Systems and Technology and a software engineer. I am passionate about building efficient, scalable, and maintainable software applications, and I enjoy exploring modern technologies to solve real-world problems.",
         "manner": "My Approach",
@@ -231,12 +230,8 @@ def get_about_me():
             "manner_4": "Detail-oriented and structured engineering mindset."
         },
     }
-    # Return JSON response with structured data
     return JSONResponse(content=about_me_data)
 
-    # focus to be used in focus card
-    # and to be worked on later for more details
-    # more details to be added later
 
 @app.get("/focus")
 def get_focus():
@@ -322,7 +317,7 @@ def send_whatsapp_notification(name: str, email: str, message: str):
     
     try:
         # Format message for WhatsApp
-        whatsapp_message = f"📩 New Portfolio Contact\n\nName: {name}\nEmail: {email}\n\nMessage: {message[:200]}..."  # Limit message length
+        whatsapp_message = f"📩 New Portfolio Contact\n\nName: {name}\nEmail: {email}\n\nMessage: {message[:200]}..."
         
         # CallMeBot API endpoint
         url = f"https://api.callmebot.com/whatsapp.php?phone={WHATSAPP_PHONE}&text={quote(whatsapp_message)}&apikey={WHATSAPP_API_KEY}"

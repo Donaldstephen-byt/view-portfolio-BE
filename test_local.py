@@ -14,7 +14,6 @@ def test_admin_view():
         if response.status_code == 200:
             print("✅ SUCCESS: Admin view accessible!")
             data = response.json()
-            # print(data)
             print(f"Status: {data.get('status')}")
             print(f"Visits Count: {data['data']['visits_count']}")
             print(f"Contacts Count: {data['data']['contacts_count']}")
