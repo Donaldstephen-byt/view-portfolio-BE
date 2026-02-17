@@ -162,15 +162,13 @@ def get_profile():
 @app.get("/skills")
 def get_skills():
     skills_data = {
-        "title": "System Status", # Changed from "My Skills"
+        "title": "System Status", 
         "tagline": "Engineering scalable solutions with secure architecture.",
-        # Break down the skills so the Frontend can map them nicely
         "stack": {
             "frontend": ["javascript", "React.js","Vue.js", "Boostrap", "Three.js", "Tailwind", "Next.js"],
             "backend": ["Python (FastAPI)", "Node.js", "MongoDB", "PostgreSQL"],
             "security": ["Kali Linux", "Burp Suite", "OWASP", "Cryptography"]
         },
-        # Fun "Live" stats to make it look professional..
         "stats": {
             "experience": "3+ Years",
             "projects": "15+ Built",
