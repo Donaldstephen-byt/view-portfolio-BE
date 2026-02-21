@@ -240,7 +240,7 @@ def get_focus():
     return JSONResponse(content=focus_data)
 
 
-# configuration for contact endpoint and to be completed >>>>>>......
+# configuration for contact endpoint and to be completed >>>>>>..
 
 
 # Email configuration
